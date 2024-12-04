@@ -1,1 +1,1 @@
-Fitxer test02.txt
+txer test02.txt
