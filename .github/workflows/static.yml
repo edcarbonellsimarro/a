@@ -1,43 +1,35 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: Upload to Remote Server
 
 on:
-  # Runs on pushes targeting the default branch
   push:
-    branches: ["prova"]
-
-  # Allows you to run this workflow manually from the Actions tab
+    branches:
+      - main
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  upload-to-server:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          # Upload entire repository
-          path: '.'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      # Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Build or prepare files to upload
+      - name: Build Project (optional)
+        run: |
+          echo "Building project..."
+          mkdir -p output
+          echo "Hello, World!" > output/example.txt
+
+      # Upload files to remote server with username and password
+      - name: Upload to Remote Server
+        run: |
+          sshpass -p "$SERVER_PASSWORD" scp -r output/ $SERVER_USER@52.149.127.16:/var/www/html
+        env:
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+
+      # Optional: Notify success
+      - name: Notify Completion
+        run: echo "Files have been uploaded to the remote server successfully!"
