@@ -1,0 +1,35 @@
+name: Upload to Remote Server
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  upload-to-server:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Build or prepare files to upload
+      - name: Build Project (optional)
+        run: |
+          echo "Building project..."
+          mkdir -p output
+          echo "Hello, World!" > output/example.txt
+
+      # Upload files to remote server with username and password
+      - name: Upload to Remote Server
+        run: |
+          sshpass -p "$SERVER_PASSWORD" scp -r output/ $SERVER_USER@52.149.127.16:/var/www/html
+        env:
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+
+      # Optional: Notify success
+      - name: Notify Completion
+        run: echo "Files have been uploaded to the remo
