@@ -25,7 +25,7 @@ jobs:
       # Upload files to remote server with username and password
       - name: Upload to Remote Server
         run: |
-          ssh -p "$SERVER_PASSWORD" scp -r output/ $SERVER_USER@52.149.127.16:/var/www/html
+          sshpass -p "$SERVER_PASSWORD" scp -r output/ $SERVER_USER@52.149.127.16:/var/www/html
         env:
           SERVER_USER: ${{ secrets.SERVER_USER }}
           SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
