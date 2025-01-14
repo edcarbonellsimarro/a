@@ -22,14 +22,15 @@ jobs:
           mkdir -p output
           echo "Hello, World!" > output/example.txt
 
-      # Upload files to remote server with username and password
+      # Upload files to remote server
       - name: Upload to Remote Server
         run: |
-          sshpass -p "$SERVER_PASSWORD" scp -r output/ $SERVER_USER@52.149.127.16:/var/www/html
+          scp -r output/ administrador@20.240.240.229:/var/www/html
         env:
-          SERVER_USER: ${{ secrets.SERVER_USER }}
-          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
       # Optional: Notify success
       - name: Notify Completion
         run: echo "Files have been uploaded to the remote server successfully!"
+
+
