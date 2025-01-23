@@ -25,9 +25,14 @@ jobs:
       # Upload files to remote server
       - name: Upload to Remote Server
         run: |
-          scp -r output/ administrador@20.240.240.229:/var/www/html
+          sshpass -p "$SERVER_PASSWORD" scp -r output/ $SERVER_USER@52.149.127.16:/var/www/html
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+        #run: |
+        #  scp -r output/ administrador@20.240.240.229:/var/www/html
+        #env:
+        #  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
       # Optional: Notify success
       - name: Notify Completion
