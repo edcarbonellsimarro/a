@@ -25,7 +25,7 @@ jobs:
       # Upload files to remote server
       - name: Upload to Remote Server
         run: |
-          sshpass -p "$SERVER_PASSWORD" scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -pr . $SERVER_USER@52.149.127.16:/var/www/html
+          sshpass -p "$SERVER_PASSWORD" scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r . $SERVER_USER@52.149.127.16:/var/www/html
         #sshpass -p "$SERVER_PASSWORD" scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r output/ $SERVER_USER@52.149.127.16:/var/www/html
         env:
           SERVER_USER: ${{ secrets.SERVER_USER }}
