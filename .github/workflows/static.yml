@@ -3,7 +3,7 @@ name: Upload to Remote Server
 on:
   push:
     branches:
-      - main
+      - prova
   workflow_dispatch:
 
 jobs:
